@@ -6,3 +6,7 @@
   border: solid black 5px;
   user-select: none;
 }
+
+.eas-square {
+  border: solid lightgray 1px;
+}

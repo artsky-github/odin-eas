@@ -1,26 +1,54 @@
-const easContainer = document.querySelector(".eas-container");
+const gridContainer = createGridContainer();
+let isMouseDown = false;
+
+function dragToColor(gridContainer) {
+  gridContainer.addEventListener("mousedown", () => {
+    isMouseDown = true;
+  });
+  gridContainer.addEventListener("mouseup", () => {
+    isMouseDown = false;
+  });
+  gridContainer.addEventListener("mousedown", (e) => {
+    changeColor(e, gridContainer);
+  });
+  gridContainer.addEventListener("mouseover", (e) => {
+    changeColor(e, gridContainer);
+  });
+}
 
 function getSquareDimension(gridContainer, squares) {
   return gridContainer.clientWidth / squares - 2;
 }
 
+function createGridContainer() {
+  const gridContainer = document.createElement("div");
+  gridContainer.setAttribute("class", "eas-container");
+  dragToColor(gridContainer);
+  document.body.appendChild(gridContainer);
+  return gridContainer;
+}
+
 function createSquare(squares) {
-  const lenWidth = getSquareDimension(easContainer, squares);
+  const lenWidth = getSquareDimension(gridContainer, squares);
   const square = document.createElement("div");
-  square.setAttribute(
-    "style",
-    `border: solid black 1px; min-width: ${lenWidth}px; height: ${lenWidth}px;`
-  );
-  square.addEventListener("mousedown", () => {
-    square.style.backgroundColor = "red";
-  });
+  square.setAttribute("class", "eas-square");
+  square.style.minWidth = `${lenWidth}px`;
+  square.style.maxHeight = `${lenWidth}px`;
   return square;
 }
 
 function createGrid(squares) {
   for (let i = 0; i < Math.pow(squares, 2); i++) {
-    easContainer.appendChild(createSquare(squares));
+    gridContainer.appendChild(createSquare(squares));
   }
 }
 
-createGrid(10);
+function changeColor(e, gridContainer) {
+  if (e.type === "mouseover" && !isMouseDown) return;
+  if (e.target !== gridContainer) {
+    e.target.style.backgroundColor = "black";
+    e.target.style.borderColor = "black";
+  }
+}
+
+createGrid(20);
