@@ -1,4 +1,15 @@
-const gridContainer = createGridContainer();
+import { promptButton } from "./button.js";
+
+export const gridContainer = createGridContainer();
+export function createGrid(gridContainer, squares) {
+  for (let i = 0; i < Math.pow(squares, 2); i++) {
+    gridContainer.appendChild(createSquare(gridContainer, squares));
+  }
+}
+export function resetGrid(gridContainer) {
+  gridContainer.innerHTML = "";
+}
+
 let isMouseDown = false;
 
 function dragToColor(gridContainer) {
@@ -15,20 +26,19 @@ function dragToColor(gridContainer) {
     changeColor(e, gridContainer);
   });
 }
-
 function getSquareDimension(gridContainer, squares) {
   return gridContainer.clientWidth / squares - 2;
 }
-
 function createGridContainer() {
   const gridContainer = document.createElement("div");
+  const footerElement = document.getElementsByTagName("footer")[0];
   gridContainer.setAttribute("class", "eas-container");
+  document.body.insertBefore(gridContainer, footerElement);
   dragToColor(gridContainer);
-  document.body.appendChild(gridContainer);
+  createGrid(gridContainer, 10);
   return gridContainer;
 }
-
-function createSquare(squares) {
+function createSquare(gridContainer, squares) {
   const lenWidth = getSquareDimension(gridContainer, squares);
   const square = document.createElement("div");
   square.setAttribute("class", "eas-square");
@@ -36,19 +46,17 @@ function createSquare(squares) {
   square.style.maxHeight = `${lenWidth}px`;
   return square;
 }
-
-function createGrid(squares) {
-  for (let i = 0; i < Math.pow(squares, 2); i++) {
-    gridContainer.appendChild(createSquare(squares));
-  }
-}
-
 function changeColor(e, gridContainer) {
   if (e.type === "mouseover" && !isMouseDown) return;
   if (e.target !== gridContainer) {
-    e.target.style.backgroundColor = "black";
-    e.target.style.borderColor = "black";
+    let rgbRandom = colorRandomizer();
+    e.target.style.backgroundColor = rgbRandom;
+    e.target.style.borderColor = rgbRandom;
   }
 }
-
-createGrid(20);
+function colorRandomizer() {
+  let r = Math.floor(Math.random() * 256);
+  let g = Math.floor(Math.random() * 256);
+  let b = Math.floor(Math.random() * 256);
+  return `rgb(${r},${g},${b})`;
+}

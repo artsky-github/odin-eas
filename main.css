@@ -12,7 +12,7 @@ body {
   width: 600px;
   height: 600px;
   border: solid black 5px;
-  box-shadow: 10px 10px 15px lightgray;
+  box-shadow: 3px 3px 5px gray;
   user-select: none;
 }
 
@@ -23,4 +23,28 @@ body {
 
 .eas-square:hover {
   background-color: black;
+}
+
+.prompt-button {
+  border-radius: 25px;
+  background-color: black;
+  color: white;
+  padding: 15px;
+  border: 0;
+  box-shadow: 3px 3px 5px gray;
+  margin-bottom: 20px;
+}
+
+.prompt-button:active {
+  box-shadow: 0px 0px 0px;
+}
+
+.footer {
+  margin-block: 25px;
+}
+
+.github-icon {
+  width: 25px;
+  vertical-align: middle;
+  margin-left: 10px;
 }
