@@ -25,9 +25,15 @@ function requestUserNumb() {
   if (userInput === null) {
     return null;
   }
-  while (userInput > 64 || userInput <= 0) {
+  while (
+    userInput > 64 ||
+    (userInput <= 0 && userInput !== null) ||
+    isNaN(userInput) === true
+  ) {
     if (userInput <= 0) {
       userInput = prompt("Grid cannot be 0 or less! Try Again:");
+    } else if (isNaN(userInput) === true) {
+      userInput = prompt("Not a number! Try Again:");
     } else {
       userInput = prompt("Grid cannot be greater than 64! Try Again:");
     }
