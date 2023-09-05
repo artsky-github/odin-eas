@@ -9,8 +9,12 @@ function createPromptButton() {
   promptButton.setAttribute("class", "prompt-button");
   promptButton.addEventListener("click", () => {
     let userInput = requestUserNumb();
-    resetGrid(gridContainer);
-    createGrid(gridContainer, userInput);
+    if (userInput === null) {
+      // does nothing to ignore unnecessary method execution.
+    } else {
+      resetGrid(gridContainer);
+      createGrid(gridContainer, userInput);
+    }
   });
   headerElement.after(promptButton);
   return promptButton;
@@ -18,8 +22,15 @@ function createPromptButton() {
 
 function requestUserNumb() {
   let userInput = prompt("Squares Per Side:");
+  if (userInput === null) {
+    return null;
+  }
   while (userInput > 64 || userInput <= 0) {
-    userInput = prompt("Reached Limit! Try Again:");
+    if (userInput <= 0) {
+      userInput = prompt("Grid cannot be 0 or less! Try Again:");
+    } else {
+      userInput = prompt("Grid cannot be greater than 64! Try Again:");
+    }
   }
   return userInput;
 }

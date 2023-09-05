@@ -6,6 +6,8 @@ export function createGrid(gridContainer, squares) {
     gridContainer.appendChild(createSquare(gridContainer, squares));
   }
 }
+
+console.log(gridContainer);
 export function resetGrid(gridContainer) {
   gridContainer.innerHTML = "";
 }
