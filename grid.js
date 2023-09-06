@@ -2,17 +2,31 @@ import { promptButton } from "./button.js";
 
 export const gridContainer = createGridContainer();
 export function createGrid(gridContainer, squares) {
-  for (let i = 0; i < Math.pow(squares, 2); i++) {
-    gridContainer.appendChild(createSquare(gridContainer, squares));
+  for (let i = 0; i < squares; i++) {
+    const lastSquare = createSquare(gridContainer, squares);
+    lastSquare.style.minWidth = `${getLastSquareSize(
+      gridContainer,
+      squares
+    )}px`;
+    console.log(lastSquare.clientWidth);
+    gridContainer.appendChild(lastSquare);
+    for (let j = 0; j < squares - 1; j++) {
+      gridContainer.appendChild(createSquare(gridContainer, squares));
+    }
   }
+  console.log(gridContainer);
 }
 
-console.log(gridContainer);
 export function resetGrid(gridContainer) {
   gridContainer.innerHTML = "";
 }
 
 let isMouseDown = false;
+
+function getLastSquareSize(gridContainer, squares) {
+  const unrefinedDimension = getSquareDimension(gridContainer, squares);
+  return gridContainer.clientWidth - unrefinedDimension * (squares - 1);
+}
 
 function dragToColor(gridContainer) {
   gridContainer.addEventListener("mousedown", () => {
@@ -28,9 +42,11 @@ function dragToColor(gridContainer) {
     changeColor(e, gridContainer);
   });
 }
+
 function getSquareDimension(gridContainer, squares) {
-  return gridContainer.clientWidth / squares - 2;
+  return Math.round((gridContainer.clientWidth / squares) * 10) / 10;
 }
+
 function createGridContainer() {
   const gridContainer = document.createElement("div");
   const footerElement = document.getElementsByTagName("footer")[0];
@@ -46,6 +62,7 @@ function createSquare(gridContainer, squares) {
   square.setAttribute("class", "eas-square");
   square.style.minWidth = `${lenWidth}px`;
   square.style.maxHeight = `${lenWidth}px`;
+  console.log(square);
   return square;
 }
 function changeColor(e, gridContainer) {
